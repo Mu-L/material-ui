@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { OverridableComponent, OverrideProps } from '@mui/types';
 import { SxProps } from '@mui/system';
 // @ts-ignore
-import Grid from '@pigment-css/react/Grid';
+import Grid from '@mui/material-pigment-css/Grid';
 import composeClasses from '@mui/utils/composeClasses';
 import generateUtilityClass from '@mui/utils/generateUtilityClass';
 import {
   generateDirectionClasses,
   generateSizeClassNames,
   generateSpacingClassNames,
-} from '@mui/system/Unstable_Grid/gridGenerator';
+} from '@mui/system/Grid/gridGenerator';
 import { Breakpoint, Theme } from '../styles';
 
 type ResponsiveStyleValue<T> = T | Array<T | null> | { [key in Breakpoint]?: T | null };
@@ -156,7 +156,7 @@ const PigmentGrid = React.forwardRef(function PigmentGrid(props, ref) {
 
   const classes = useUtilityClasses(props);
 
-  return <Grid ref={ref} className={clsx(classes.root, className)} {...other} />;
+  return <Grid ref={ref} className={clsx(classes.root, className)} {...(other as any)} />;
 }) as OverridableComponent<GridTypeMap>;
 
 PigmentGrid.propTypes /* remove-proptypes */ = {

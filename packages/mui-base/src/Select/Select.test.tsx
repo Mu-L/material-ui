@@ -59,7 +59,7 @@ describe('<Select />', () => {
         testWithElement: 'span',
       },
     },
-    skip: ['componentProp', 'reactTestRenderer'],
+    skip: ['componentProp'],
   }));
 
   describe('selected option rendering', () => {
@@ -752,7 +752,7 @@ describe('<Select />', () => {
       expect(onChange.notCalled).to.equal(true);
     });
 
-    it('is not called after initial render when when controlled value is set to null', () => {
+    it('is not called after initial render when when controlled value is set to null', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const [value, setValue] = React.useState<string | null>(null);
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
@@ -769,12 +769,12 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.notCalled).to.equal(true);
     });
 
-    it('is not called after initial render when when the default uncontrolled value is set to null', () => {
+    it('is not called after initial render when when the default uncontrolled value is set to null', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
           onChange(newValue);
@@ -789,12 +789,12 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.notCalled).to.equal(true);
     });
 
-    it('is not called after initial render when the controlled value is set to a valid option', () => {
+    it('is not called after initial render when the controlled value is set to a valid option', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const [value, setValue] = React.useState<string | null>('1');
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
@@ -811,12 +811,12 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.notCalled).to.equal(true);
     });
 
-    it('is not called after initial render when when the default uncontrolled value is set to a valid option', () => {
+    it('is not called after initial render when when the default uncontrolled value is set to a valid option', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
           onChange(newValue);
@@ -831,12 +831,12 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.notCalled).to.equal(true);
     });
 
-    it('is called after initial render with `null` when the controlled value is set to a nonexistent option', () => {
+    it('is called after initial render with `null` when the controlled value is set to a nonexistent option', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const [value, setValue] = React.useState<string | null>('42');
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
@@ -853,13 +853,13 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.called).to.equal(true);
       expect(onChange.args[0][0]).to.equal(null);
     });
 
-    it('is called after initial render when when the default uncontrolled value is set to a nonexistent option', () => {
+    it('is called after initial render when when the default uncontrolled value is set to a nonexistent option', async () => {
       function TestComponent({ onChange }: { onChange: (value: string | null) => void }) {
         const handleChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
           onChange(newValue);
@@ -874,7 +874,7 @@ describe('<Select />', () => {
       }
 
       const onChange = spy();
-      render(<TestComponent onChange={onChange} />);
+      await render(<TestComponent onChange={onChange} />);
 
       expect(onChange.called).to.equal(true);
       expect(onChange.args[0][0]).to.equal(null);
@@ -978,8 +978,8 @@ describe('<Select />', () => {
 
   // according to WAI-ARIA 1.2 (https://www.w3.org/TR/wai-aria-1.2/#combobox)
   describe('a11y attributes', () => {
-    it('should have the `combobox` role', () => {
-      render(
+    it('should have the `combobox` role', async () => {
+      await render(
         <Select>
           <Option value={1}>One</Option>
         </Select>,
@@ -988,8 +988,8 @@ describe('<Select />', () => {
       expect(screen.queryByRole('combobox')).not.to.equal(null);
     });
 
-    it('should have the aria-expanded attribute', () => {
-      render(
+    it('should have the aria-expanded attribute', async () => {
+      await render(
         <Select>
           <Option value={1}>One</Option>
         </Select>,
@@ -1262,7 +1262,12 @@ describe('<Select />', () => {
     expect(selectButton).to.have.text('1, 2');
   });
 
-  it('perf: does not rerender options unnecessarily', async () => {
+  it('perf: does not rerender options unnecessarily', async function test() {
+    if (/jsdom/.test(window.navigator.userAgent)) {
+      // JSDOM doesn't support :focus-visible
+      this.skip();
+    }
+
     const renderOption1Spy = spy();
     const renderOption2Spy = spy();
     const renderOption3Spy = spy();

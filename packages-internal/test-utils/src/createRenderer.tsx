@@ -14,8 +14,12 @@ import {
   prettyDOM,
   within,
   RenderResult,
+  screen as rtlScreen,
+  Screen,
 } from '@testing-library/react/pure';
+import { userEvent } from '@testing-library/user-event';
 import { useFakeTimers } from 'sinon';
+import reactMajor from './reactMajor';
 
 interface Interaction {
   id: number;
@@ -268,6 +272,7 @@ interface ServerRenderConfiguration extends RenderConfiguration {
 export type RenderOptions = Partial<RenderConfiguration>;
 
 export interface MuiRenderResult extends RenderResult<typeof queries & typeof customQueries> {
+  user: ReturnType<typeof userEvent.setup>;
   forceUpdate(): void;
   /**
    * convenience helper. Better than repeating all props.
@@ -296,6 +301,7 @@ function render(
   );
   const result: MuiRenderResult = {
     ...testingLibraryRenderResult,
+    user: userEvent.setup(),
     forceUpdate() {
       traceSync('forceUpdate', () =>
         testingLibraryRenderResult.rerender(
@@ -563,7 +569,7 @@ export function createRenderer(globalOptions: CreateRendererOptions = {}): Rende
       wrapper: InnerWrapper = React.Fragment,
     } = options;
 
-    const usesLegacyRoot = !React.version.startsWith('18');
+    const usesLegacyRoot = reactMajor < 18;
     const Mode = strict && (strictEffects || usesLegacyRoot) ? React.StrictMode : React.Fragment;
     return function Wrapper({ children }: { children?: React.ReactNode }) {
       return (
@@ -732,6 +738,8 @@ function act<T>(callback: () => void | T | Promise<T>) {
   return traceSync('act', () => rtlAct(callback));
 }
 
+const bodyBoundQueries = within(document.body, { ...queries, ...customQueries });
+
 export * from '@testing-library/react/pure';
-export { act, cleanup, fireEvent };
-export const screen = within(document.body, { ...queries, ...customQueries });
+export { act, fireEvent };
+export const screen: Screen & typeof bodyBoundQueries = { ...rtlScreen, ...bodyBoundQueries };

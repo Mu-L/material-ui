@@ -61,7 +61,7 @@ npx @mui/codemod@next <transform> <path> --jscodeshift="--printOptions='{\"quote
 
 ## Included scripts
 
-- [Deprecation](#deprecations)
+- [Deprecations](#deprecations)
 - [v6](#v600)
 - [v5](#v500)
 - [v4](#v400)
@@ -800,7 +800,6 @@ npx @mui/codemod@latest deprecations/button-group-classes <path>
 JS transforms:
 
 ```diff
-
  import { chipClasses } from '@mui/material/Chip';
 
   MuiChip: {
@@ -1115,6 +1114,63 @@ npx @mui/codemod@next deprecations/list-item-props <path>
 
 ```bash
 npx @mui/codemod@next deprecations/grid-props <path>
+```
+
+#### `image-list-item-bar-classes`
+
+JS transforms:
+
+```diff
+ import { imageListItemBarClasses } from '@mui/material/ImageListItemBar';
+
+ MuiImageListItemBar: {
+   styleOverrides: {
+     root: {
+-      [`& .${imageListItemBarClasses.titleWrapBelow}`]: {
++      [`&.${imageListItemBarClasses.positionBelow} > .${imageListItemBarClasses.titleWrap}`]: {
+         color: 'red',
+       },
+-      [`& .${imageListItemBarClasses.titleWrapActionPosLeft}`]: {
++      [`&.${imageListItemBarClasses.actionPositionLeft} > .${imageListItemBarClasses.titleWrap}`]: {
+         color: 'red',
+       },
+-      [`& .${imageListItemBarClasses.titleWrapActionPosRight}`]: {
++      [`&.${imageListItemBarClasses.actionPositionRight} > .${imageListItemBarClasses.titleWrap}`]: {
+         color: 'red',
+       },
+-      [`& .${imageListItemBarClasses.actionIconActionPosLeft}`]: {
++      [`&.${imageListItemBarClasses.actionPositionLeft} > .${imageListItemBarClasses.actionIcon}`]: {
+         color: 'red',
+       },
+     },
+   },
+ },
+```
+
+CSS transforms:
+
+```diff
+- .MuiImageListItemBar-titleWrapBelow
++.MuiImageListItemBar-positionBelow > .MuiImageListItemBar-titleWrap
+```
+
+```diff
+- .MuiImageListItemBar-titleWrapActionPosLeft
++.MuiImageListItemBar-actionPositionLeft > .MuiImageListItemBar-titleWrap
+```
+
+```diff
+- .MuiImageListItemBar-titleWrapActionPosRight
++.MuiImageListItemBar-actionPositionRight > .MuiImageListItemBar-titleWrap
+```
+
+```diff
+- .MuiImageListItemBar-actionIconActionPosLeft
++.MuiImageListItemBar-actionPositionLeft > .MuiImageListItemBar-actionIcon
+```
+
+```bash
+npx @mui/codemod@next deprecations/image-list-item-bar-classes <path>
 ```
 
 #### `input-base-props`
@@ -1585,6 +1641,28 @@ CSS transforms:
 npx @mui/codemod@next deprecations/table-sort-label-classes <path>
 ```
 
+#### `typography-props`
+
+```diff
+ <Typography
+-  paragraph
++  sx={{ marginBottom: '16px' }}
+ />
+```
+
+```diff
+ MuiTypography: {
+   defaultProps: {
+-    paragraph: true
++    sx: { marginBottom: '16px' },
+   },
+ },
+```
+
+```bash
+npx @mui/codemod@next deprecations/typography-props <path>
+```
+
 ### v6.0.0
 
 #### `sx-prop`
@@ -1758,6 +1836,36 @@ However, it has some **limitations**:
       })),
   }));
   ```
+
+#### `grid-v2-props`
+
+```bash
+npx @mui/codemod@next v6.0.0/grid-v2-props <path>
+```
+
+Updates the usage of the `@mui/material/Grid2`, `@mui/system/Grid`, and `@mui/joy/Grid` components to their updated APIs.
+
+```diff
+ <Grid
+-   xs={12}
+-   sm={6}
+-   xsOffset={2}
+-   smOffset={3}
++   size={{ xs: 12, sm: 6 }}
++   offset={{ xs: 2, sm: 3 }}
+ />
+```
+
+You can provide the theme breakpoints via options, for example, `--jscodeshift='--muiBreakpoints=mobile,desktop'`, to use your custom breakpoints in the transformation.
+
+```bash
+npx @mui/codemod@next v6.0.0/grid-v2-props <path> --jscodeshift='--muiBreakpoints=mobile,desktop'
+```
+
+```diff
+- <Grid mobile={12} mobileOffset={2} desktop={6} desktopOffset={4} >
++ <Grid size={{ mobile: 12, desktop: 6 }} offset={{ mobile: 2, desktop: 4 }} >
+```
 
 ### v5.0.0
 
