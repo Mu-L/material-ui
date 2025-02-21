@@ -3,15 +3,15 @@ title: Build layouts faster with the new Grid component
 description: The new Grid v2 features simplified logic, support for offsetting and nested grids, and more.
 date: 2022-08-20T00:00:00.000Z
 authors: ['siriwatknp']
-tags: ['MUI Core', 'News']
-card: true
+tags: ['Material UI', 'Guide']
+manualCard: true
 ---
 
-You can now use the new `Grid` component, shipped with [Material UI v5.9.0](https://github.com/mui/material-ui/releases/tag/v5.9.0), for updated features and a better developer experience when building layouts.
+You can now use the new `Grid` component, shipped with [Material UI v5.9.0](https://github.com/mui/material-ui/releases/tag/v5.9.0), for updated features and a better developer experience when building layouts.
 
 ```js
-import Grid from '@mui/material/Grid'; // The current grid, a.k.a. Grid v1
-import Grid from '@mui/material/Unstable_Grid2'; // The new grid, a.k.a. Grid v2
+import Grid from '@mui/material/GridLegacy'; // The legacy grid, a.k.a. Grid v1
+import Grid from '@mui/material/Grid2'; // The updated grid, a.k.a. Grid v2
 ```
 
 ## The motivation
@@ -19,7 +19,7 @@ import Grid from '@mui/material/Unstable_Grid2'; // The new grid, a.k.a. Grid v2
 - To fix the migration pain points ([#26266](https://github.com/mui/material-ui/issues/29266) and [#31244](https://github.com/mui/material-ui/issues/31244)) for the grid component which is caused by the [implementation changes](https://github.com/mui/material-ui/pull/24332) introduced in v5.
 - To add the long-awaited [offset feature](https://github.com/mui/material-ui/issues/11251) to the layout grid component.
 - To remove the child combinator (`>`) from the grid item styles, which [complicates the customization](https://github.com/mui/material-ui/issues/28855) of the old grid.
-- To fix [the limitation on nested grids](https://mui.com/material-ui/react-grid/#nested-grid).
+- To fix [the limitation on nested grids](https://mui.com/material-ui/react-grid-legacy/#nested-grid).
 - To eliminate the unnecessary `item` prop.
 
 ## What's new
@@ -29,16 +29,16 @@ For v2, the `Grid` component has been rewritten from scratch using CSS variables
 ### 💥 Breaking change
 
 The negative margin in the new `Grid` spreads equally on all sides by default.
-This is the same as the `Grid` in Material UI v4.
+This is the same as the `Grid` in Material UI v4.
 
 :::info
 We believe that the migration from Grid v1 to v2 will be smooth for most users.
-To get started right away, head over to the [Grid v2 migration guide](/material-ui/migration/migration-grid-v2/).
+To get started right away, head over to the [Grid2 migration guide](/material-ui/migration/upgrade-to-grid-v2/).
 :::
 
 ### 🚀 New features
 
-#### [Disable the scrollbar](/material-ui/react-grid2/#disable-the-scrollbar)
+#### [Disable the scrollbar](https://v5.mui.com/material-ui/react-grid2/#disable-the-scrollbar)
 
 A new prop called `disableEqualOverflow` solves the problem of an unwanted scrollbar appearing on small viewports.
 
@@ -137,10 +137,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 ## Future plan and migration
 
 Since the `Grid` has been rewritten from scratch for v2, it is currently considered _unstable_ as we give the community time to try it out and offer feedback.
-We will make it stable and deprecate v1 in the next major release of Material UI.
+We will make it stable and deprecate v1 in the next major release of Material UI.
 
 Ready to make the jump?
-Check out the [Grid v2 documentation](/material-ui/react-grid2/) and the [Grid v2 migration guide](/material-ui/migration/migration-grid-v2/).
+Check out the [Grid2 documentation](/material-ui/react-grid2/) and the [Grid2 migration guide](/material-ui/migration/upgrade-to-grid-v2/).
 
 <hr />
 

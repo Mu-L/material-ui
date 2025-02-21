@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Typography from '@mui/material/Typography';
 import {
   createTheme,
@@ -34,7 +34,7 @@ function IntentionsInner() {
       <div style={{ backgroundColor: color }} />
       <div>
         <Typography variant="body2">{name}</Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {rgbToHex(color)}
         </Typography>
       </div>

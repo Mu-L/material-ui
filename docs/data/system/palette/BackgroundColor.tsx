@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 
 export default function BackgroundColor() {
   return (
@@ -12,11 +12,7 @@ export default function BackgroundColor() {
       </Grid>
       <Grid item xs={12} sm={4}>
         <Box
-          sx={{
-            bgcolor: 'secondary.main',
-            color: 'secondary.contrastText',
-            p: 2,
-          }}
+          sx={{ bgcolor: 'secondary.main', color: 'secondary.contrastText', p: 2 }}
         >
           secondary.main
         </Box>

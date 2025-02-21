@@ -5,10 +5,48 @@ import { TransitionProps } from '../transitions/transition';
 import { AccordionClasses } from './accordionClasses';
 import { OverridableComponent, OverrideProps } from '../OverridableComponent';
 import { ExtendPaperTypeMap } from '../Paper/Paper';
+import { CreateSlotsAndSlotProps, SlotComponentProps, SlotProps } from '../utils/types';
+
+export interface AccordionSlots {
+  /**
+   * The component that renders the heading.
+   * @default 'h3'
+   */
+  heading: React.ElementType;
+  /**
+   * The component that renders the transition.
+   * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Collapse
+   */
+  transition: React.ElementType;
+}
+
+export interface AccordionTransitionSlotPropsOverrides {}
+export interface AccordionHeadingSlotPropsOverrides {}
+
+export type AccordionSlotsAndSlotProps = CreateSlotsAndSlotProps<
+  AccordionSlots,
+  {
+    /**
+     * Props forwarded to the heading slot.
+     * By default, the avaible props are based on the h3 element.
+     */
+    heading: SlotProps<'h3', AccordionHeadingSlotPropsOverrides, AccordionOwnerState>;
+    /**
+     * Props forwarded to the transition slot.
+     * By default, the avaible props are based on the [Collapse](https://mui.com/material-ui/api/collapse/#props) component.
+     */
+    transition: SlotComponentProps<
+      React.ElementType,
+      TransitionProps & AccordionTransitionSlotPropsOverrides,
+      AccordionOwnerState
+    >;
+  }
+>;
 
 export type AccordionTypeMap<
   AdditionalProps = {},
-  DefaultComponent extends React.ElementType = 'div',
+  RootComponent extends React.ElementType = 'div',
 > = ExtendPaperTypeMap<
   {
     props: AdditionalProps & {
@@ -53,19 +91,20 @@ export type AccordionTypeMap<
       sx?: SxProps<Theme>;
       /**
        * The component used for the transition.
-       * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
-       * @default Collapse
+       * [Follow this guide](https://mui.com/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+       * @deprecated Use `slots.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
        */
       TransitionComponent?: React.JSXElementConstructor<
-        TransitionProps & { children?: React.ReactElement<any, any> }
+        TransitionProps & { children?: React.ReactElement<unknown, any> }
       >;
       /**
        * Props applied to the transition element.
-       * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition/) component.
+       * By default, the element is based on this [`Transition`](https://reactcommunity.org/react-transition-group/transition/) component.
+       * @deprecated Use `slotProps.transition` instead. This prop will be removed in v7. See [Migrating from deprecated APIs](/material-ui/migration/migrating-from-deprecated-apis/) for more details.
        */
       TransitionProps?: TransitionProps;
-    };
-    defaultComponent: DefaultComponent;
+    } & AccordionSlotsAndSlotProps;
+    defaultComponent: RootComponent;
   },
   'onChange' | 'classes'
 >;
@@ -74,12 +113,12 @@ export type AccordionTypeMap<
  *
  * Demos:
  *
- * - [Accordion](https://mui.com/material-ui/react-accordion/)
+ * - [Accordion](https://next.mui.com/material-ui/react-accordion/)
  *
  * API:
  *
- * - [Accordion API](https://mui.com/material-ui/api/accordion/)
- * - inherits [Paper API](https://mui.com/material-ui/api/paper/)
+ * - [Accordion API](https://next.mui.com/material-ui/api/accordion/)
+ * - inherits [Paper API](https://next.mui.com/material-ui/api/paper/)
  */
 declare const Accordion: OverridableComponent<AccordionTypeMap>;
 
@@ -89,5 +128,7 @@ export type AccordionProps<
 > = OverrideProps<AccordionTypeMap<AdditionalProps, RootComponent>, RootComponent> & {
   component?: React.ElementType;
 };
+
+export interface AccordionOwnerState extends AccordionProps {}
 
 export default Accordion;

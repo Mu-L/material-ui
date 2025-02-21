@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { rgbToHex, useTheme } from '@mui/material/styles';
 import * as colors from '@mui/material/colors';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
 import Tooltip from '@mui/material/Tooltip';
@@ -118,7 +118,7 @@ function ColorTool() {
       isValidColor = true;
     } else if (isHex(color)) {
       isValidColor = true;
-      if (color.indexOf('#') === -1) {
+      if (!color.includes('#')) {
         color = `#${color}`;
       }
     }
@@ -237,7 +237,7 @@ function ColorTool() {
             onChange={handleChangeShade(intent)}
             aria-labelledby={`${intent}ShadeSliderLabel`}
           />
-          <Typography>{shades[intentShade]}</Typography>
+          <Typography minWidth={40}>{shades[intentShade]}</Typography>
         </Box>
         <Box sx={{ width: 192 }}>
           {hues.map((hue) => {
@@ -248,7 +248,7 @@ function ColorTool() {
             const backgroundColor = colors[hue][shade];
 
             return (
-              <Tooltip placement="right" title={hue} key={hue}>
+              <Tooltip placement="right" title={hue} key={hue} disableInteractive>
                 <TooltipRadio
                   sx={{ p: 0 }}
                   color="default"

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
@@ -45,16 +45,18 @@ function Media(props) {
           ) : (
             <Skeleton variant="rectangular" width={210} height={118} />
           )}
-
           {item ? (
             <Box sx={{ pr: 2 }}>
               <Typography gutterBottom variant="body2">
                 {item.title}
               </Typography>
-              <Typography display="block" variant="caption" color="text.secondary">
+              <Typography
+                variant="caption"
+                sx={{ display: 'block', color: 'text.secondary' }}
+              >
                 {item.channel}
               </Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 {`${item.views} • ${item.createdAt}`}
               </Typography>
             </Box>

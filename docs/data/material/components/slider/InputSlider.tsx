@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
@@ -14,8 +14,8 @@ const Input = styled(MuiInput)`
 export default function InputSlider() {
   const [value, setValue] = React.useState(30);
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number);
+  const handleSliderChange = (event: Event, newValue: number) => {
+    setValue(newValue);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +35,7 @@ export default function InputSlider() {
       <Typography id="input-slider" gutterBottom>
         Volume
       </Typography>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={2} sx={{ alignItems: 'center' }}>
         <Grid item>
           <VolumeUp />
         </Grid>

@@ -56,7 +56,7 @@ const componentAreas = {
   formhelpertext: 'inputs',
   formlabel: 'inputs',
   globalstyles: 'utils',
-  grid: 'layout',
+  gridlegacy: 'layout',
   grid2: 'layout',
   grow: 'utils',
   hidden: 'layout',
@@ -324,7 +324,7 @@ function processPackages() {
 
 function run() {
   write('# This file is auto-generated, do not modify it manually.');
-  write('# run `yarn generate-codeowners` to update it.\n\n');
+  write('# run `pnpm generate-codeowners` to update it.\n\n');
 
   write(getCodeowners(additionalRules));
 
